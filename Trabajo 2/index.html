@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Juego</title>
+    <script src="js/phaser.js"></script>
+
+
+</head>
+
+<body>
+
+    <script>
+        window.onload = function() {
+
+            var WIDHT = 32 * 18;
+            var HEIGHT = 32 * 24;
+
+            var player;
+            var teclado;
+
+            var game = new Phaser.Game(WIDHT, HEIGHT, Phaser.CANVAS, 'game', {
+                preload: preload,
+                update: update,
+                create: create
+
+            });
+
+            function preload() {
+                game.scale.pageAlignHorizontally = true;
+                game.scale.pageAlignVertically = true;
+
+                teclado = game.input.keyboard.createCursorKeys();
+
+                game.load.spritesheet('nave', 'img/nave2.png', 64, 64, 3);
+
+            }
+
+            function create() {
+                //Fondo
+                game.stage.backgroundColor = "#083681";
+
+                //Nave
+                player = game.add.sprite(300, 600, 'nave');
+
+                player.animations.add('dos', [0, 1]);
+                player.animations.play('dos', 30, true);
+
+                game.physics.startSystem(Phaser.Physics.ARCADE);
+                game.physics.arcade.enable(player);
+
+
+            }
+
+
+            function update() {
+
+                if (teclado.left.isDown)
+                    player.body.velocity.x = -150;
+                else if (teclado.right.isDown)
+                    player.body.velocity.x = +150;
+                else
+                    player.body.velocity.x = 0;
+
+
+                if (teclado.up.isDown)
+                    player.body.velocity.y = -150;
+                else if (teclado.down.isDown)
+                    player.body.velocity.y = +150;
+                else
+                    player.body.velocity.y = 0;
+
+
+
+            }
+
+
+        };
+    </script>
+
+</body>
+
+</html>
